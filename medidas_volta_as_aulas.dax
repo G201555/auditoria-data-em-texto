@@ -1,0 +1,25 @@
+// Medidas corrigidas da página Volta às Aulas (tabela _Medidas).
+// Substitua a expressão de cada medida existente; os nomes continuam os mesmos, então os visuais não quebram.
+// Antes: "Lojas Visitadas" contava bandeiras (DES_BANDEIRA) e "Loja ativas" contava redes (COD_REDE).
+// Agora as duas contam lojas (BI_ID_LOJA), como já faz o Compre e Ganhe.
+//
+// Valores esperados sem filtro (dados de 03/02 a 01/04/2026):
+//   Lojas Visitadas 981 | Loja ativas 104 | % Ativação 10,6% | Brindes 1.697 | Média 16,3
+
+volta_Lojas Visitadas =
+DISTINCTCOUNT ( f_voltaasaulas[BI_ID_LOJA] )
+
+volta_Loja ativas =
+CALCULATE (
+    DISTINCTCOUNT ( f_voltaasaulas[BI_ID_LOJA] ),
+    f_voltaasaulas[ COMPRE E GANHE ATIVADO? ] = "SIM"
+)
+
+volta_% Ativação =
+DIVIDE ( [volta_Loja ativas], [volta_Lojas Visitadas] )
+
+volta_Brindes Entregues =
+SUM ( f_voltaasaulas[INFORME A QTD DE BRINDES ENTREGUES:] )
+
+volta_Média Brindes por Loja =
+DIVIDE ( [volta_Brindes Entregues], [volta_Loja ativas] )
